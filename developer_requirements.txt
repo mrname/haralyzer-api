@@ -1,0 +1,4 @@
+Sphinx
+pytest-cov
+coverage
+python-coveralls

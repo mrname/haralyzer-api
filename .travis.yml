@@ -1,0 +1,17 @@
+language: python
+matrix:
+  fast_finish: true
+  allow_failures:
+  - python: "nightly"
+python:
+  - "2.6"
+  - "2.7"
+  - "3.2"
+  - "3.3"
+  - "3.4"
+  - "nightly"
+before_install:
+    - sudo apt-get update
+    - sudo apt-get install mongodb
+install:
+  - "pip install ."
