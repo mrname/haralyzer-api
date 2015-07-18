@@ -16,5 +16,5 @@ services:
 install:
   - "pip install ."
 before_script:
-  - python run_server.py&
+  - python har_api/run_server.py&
 script: py.test --cov har_api tests/
