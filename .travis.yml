@@ -11,7 +11,11 @@ python:
   - "3.4"
   - "nightly"
 before_install:
-    - sudo apt-get update
-    - sudo apt-get install mongodb
+    - sudo apt-get -y update
+    - sudo apt-get -y install mongodb
 install:
   - "pip install ."
+before_script:
+  - mongod&
+  - python run_server.py&
+script: py.test --cov har_api tests/
