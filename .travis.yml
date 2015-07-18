@@ -15,6 +15,7 @@ services:
   - mongodb
 install:
   - "pip install ."
+  - "pip install -r developer_requirements.txt"
 before_script:
   - python har_api/run_server.py&
 script: py.test --cov har_api tests/
