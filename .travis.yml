@@ -11,8 +11,8 @@ python:
   - "3.4"
   - "nightly"
 before_install:
-    - sudo apt-get -y update
-    - sudo apt-get -y install mongodb
+    - sudo apt-get update -q
+    - sudo apt-get install mongodb -q
 install:
   - "pip install ."
 before_script:
