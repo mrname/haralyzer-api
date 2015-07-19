@@ -8,6 +8,7 @@ install_requires = [
     "Flask-Migrate",
     "Flask-RESTful",
     "Flask-SQLAlchemy",
+    "haralyzer",
 ]
 
 
