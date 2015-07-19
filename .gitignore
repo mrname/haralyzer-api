@@ -58,3 +58,6 @@ target/
 
 # Rope
 .ropeproject/
+
+# Dev DB
+data-dev.db

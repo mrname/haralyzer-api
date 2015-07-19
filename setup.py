@@ -4,7 +4,10 @@ from setuptools.command.test import test as TestCommand
 import sys
 
 install_requires = [
-    "Eve",
+    "Flask",
+    "Flask-Migrate",
+    "Flask-RESTful",
+    "Flask-SQLAlchemy",
 ]
 
 
@@ -37,7 +40,7 @@ setup(
     packages=find_packages(exclude=['docs', 'tests*']),
     install_requires=install_requires,
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
+        'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
         'Framework :: Eve',
         'License :: MIT',
