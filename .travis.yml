@@ -14,4 +14,7 @@ python:
 install:
   - "pip install ."
   - "pip install -r developer_requirements.txt"
+  - "pip install coveralls"
 script: py.test --cov har_api tests/
+after_success:
+  - coveralls
