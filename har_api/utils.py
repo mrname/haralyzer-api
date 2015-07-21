@@ -1,3 +1,6 @@
+"""
+A home for happy little utility functions.
+"""
 import json
 
 

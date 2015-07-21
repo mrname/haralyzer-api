@@ -5,4 +5,4 @@ def create_routes(api):
     """
     Given an instance of a Flask-RESTFul Api object, binds the routes.
     """
-    api.add_resource(HarTest, '/tests/', '/tests/<int:id>/')
+    api.add_resource(HarTest, '/tests/', '/tests/<int:test_id>/')

@@ -1,5 +1,6 @@
 import json
 
+from dateutil import parser as date_parser
 from flask.ext.sqlalchemy import SQLAlchemy
 from haralyzer import HarParser, HarPage
 
@@ -20,17 +21,22 @@ class Test(db.Model):
     pages = db.relationship('Page', backref='test',
                             cascade='all, delete-orphan')
 
-    def __init__(self, data):
+    def __init__(self, data, name=None):
         """
         :param data: String of JSON data representing a HAR test run
         :type data: String
+        :param name: Optional string of a custom name for the test
+        :type name: String
         """
         self.data = data
+        self.name = name
         self.har_parser = HarParser(har_data=json.loads(self.data))
         self.browser_name = self.har_parser.browser['name']
         self.browser_version = self.har_parser.browser['version']
         self.hostname = self.har_parser.hostname
-        # TODO - populate startedDateTime
+        # A bit of a hack here, grabbing the start time of the first page
+        start = date_parser.parse(self.har_parser.pages[0].startedDateTime)
+        self.startedDateTime = start
 
     def to_dict(self):
         test_dict = {'id': self.id, 'har_data': self.data,
@@ -113,7 +119,7 @@ class Page(db.Model):
     def to_dict(self):
         page_dict = {'id': self.id, 'test_id': self.test_id,
                      'page_id': self.page_id}
-        for field in self.har_parser_fields:
+        for field in self.har_page_fields:
             page_dict[field] = getattr(self, field, None)
 
         return page_dict
