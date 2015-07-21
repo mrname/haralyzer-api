@@ -11,8 +11,10 @@ class Test(db.Model):
     Represents one 'test run' which could contain multiple pages.
     """
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(256), nullable=True)
     data = db.Column(db.Text, nullable=False)
-    run_date = db.Column(db.DateTime, nullable=True)
+    hostname = db.Column(db.String(256), nullable=False)
+    startedDateTime = db.Column(db.DateTime, nullable=True)
     browser_name = db.Column(db.String(20), nullable=True)
     browser_version = db.Column(db.String(10), nullable=True)
     pages = db.relationship('Page', backref='test',
@@ -27,6 +29,8 @@ class Test(db.Model):
         self.har_parser = HarParser(har_data=json.loads(self.data))
         self.browser_name = self.har_parser.browser['name']
         self.browser_version = self.har_parser.browser['version']
+        self.hostname = self.har_parser.hostname
+        # TODO - populate startedDateTime
 
     def to_dict(self):
         test_dict = {'id': self.id, 'har_data': self.data,
@@ -51,7 +55,7 @@ class Page(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     test_id = db.Column(db.Integer, db.ForeignKey('test.id'), nullable=False)
     page_id = db.Column(db.String(64), nullable=False)
-    fqdn = db.Column(db.String(256))
+    hostname = db.Column(db.String(256))
     time_to_first_byte = db.Column(db.Float)
     html_load_time = db.Column(db.Float)
     video_load_time = db.Column(db.Float)
@@ -68,6 +72,8 @@ class Page(db.Model):
     audio_size = db.Column(db.Float)
     video_size = db.Column(db.Float)
 
+    attrs = ['hostname']
+
     load_times = ['time_to_first_byte', 'html_load_time', 'video_load_time',
                   'video_load_time', 'audio_load_time', 'js_load_time',
                   'css_load_time', 'image_load_time', 'page_load_time']
@@ -75,7 +81,7 @@ class Page(db.Model):
     page_sizes = ['page_size', 'css_size', 'image_size', 'text_size', 'js_size',
                   'audio_size', 'video_size']
 
-    har_parser_fields = load_times + page_sizes
+    har_page_fields = attrs + load_times + page_sizes
 
     def __init__(self, test_id, page_id, har_parser=None):
         """
@@ -100,7 +106,7 @@ class Page(db.Model):
         """
         Helper function that maps our HarPage object to the DB model.
         """
-        for field in self.har_parser_fields:
+        for field in self.har_page_fields:
             if getattr(self.har_page, field, None):
                 setattr(self, field, getattr(self.har_page, field))
 

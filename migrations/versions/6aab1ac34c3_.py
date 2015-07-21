@@ -1,4 +1,4 @@
-"""empty message
+"""Initial Structure (Creating test and page tables)
 
 Revision ID: 6aab1ac34c3
 Revises: None
