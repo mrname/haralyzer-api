@@ -18,6 +18,7 @@ python:
   - "3.4"
   - "nightly"
 install:
+  - "pip install MySQL-python"
   - "pip install ."
   - "pip install -r developer_requirements.txt"
   - "pip install coveralls"
