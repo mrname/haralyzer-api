@@ -121,4 +121,6 @@ def test_tests_model(app, test_data):
         assert t.browser_name == 'Firefox'
         assert t.browser_version == '25.0.1'
         assert t.data == data
-        assert t.startedDateTime == datetime.datetime(2015, 2, 22, 19, 28, 12, 136000)
+        # MySQL does not store microseconds
+        test_time = t.startedDateTime.replace(microsecond=0)
+        assert test_time == datetime.datetime(2015, 2, 22, 19, 28, 12)
