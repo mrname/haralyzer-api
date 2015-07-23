@@ -96,7 +96,6 @@ def test_get_test_collection(app, test_data):
         # Filter by hostname only
         res = app.client.get('{0}?hostname=humanssuck.net'.format(ENDPOINT))
         assert res.status_code == 200
-        print res.data
         # Filter by test name only
         # Filter by startedDateTime only
         # Filter by hostname AND test name

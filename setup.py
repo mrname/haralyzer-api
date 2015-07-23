@@ -12,6 +12,12 @@ install_requires = [
     "python-dateutil",
 ]
 
+if sys.version_info < (2, 7):
+    install_requires.extend([
+        "argparse",
+        "ordereddict",
+    ])
+
 
 class PyTest(TestCommand):
     user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
