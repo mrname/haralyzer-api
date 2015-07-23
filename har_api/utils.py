@@ -12,5 +12,5 @@ def filter_json(data):
     try:
         res = json.loads(data)
         return res
-    except ValueError:
+    except (ValueError, TypeError):
         return None

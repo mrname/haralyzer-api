@@ -8,7 +8,6 @@ import pytest
 
 from har_api.models import Test
 ENDPOINT = '/tests/'
-TEST_ID = 1
 
 
 def test_post_requires_params(app):
@@ -50,30 +49,60 @@ def test_post_valid_request(app, content_type_json, test_data):
     payload = {'har_data': test_data('humanssuck.net.har')}
     res = app.client.post(ENDPOINT, data=json.dumps(payload),
                           headers=content_type_json)
-    assert res.status_code == 200
+    assert res.status_code == 201
+    res_json = json.loads(res.data)
+    assert 'data' in res_json
 
 
+@pytest.mark.xfail
 def test_get_single_test(app, test_data):
     """
     Tests ability to retrieve a single Test object with a GET request.
     """
     data = test_data('humanssuck.net.har')
     with app.test_request_context():
-        t = Test(data)
+        t = Test(data, name='my_test')
         t.save()
-        res = app.client.get('{0}{1}/'.format(ENDPOINT, TEST_ID))
+        res = app.client.get('{0}{1}/'.format(ENDPOINT, t.id))
         assert res.status_code == 200
         res_json = json.loads(res.data)
-        #assert 'data' in res_json
+        assert 'data' in res_json
+        res_data = res_json['data']
+        assert res_data['hostname'] is not None
+        assert res_data['name'] is not None
+        assert res_data['browser_name'] is not None
+        assert res_data['data'] == data
+        assert res_data['startedDateTime'] is not None
+        assert 'pages' in res_data
+        res_pages = res_data['pages']
+        assert len(res_pages) == 1
 
 
-def test_get_test_collection(app):
+@pytest.mark.xfail
+def test_get_test_collection(app, test_data):
     """
     Tests the ability of a GET request to obtain a collection of tests based on
     certain criteria.
     """
-    # TODO - test this
-    pass
+    hs_data = test_data('humanssuck.net.har')
+    cnn_data = test_data('cnn.com.har')
+    with app.test_request_context():
+        t1 = Test(hs_data, name='hs_test_1')
+        t1.save()
+        t2 = Test(hs_data, name='hs_test_2')
+        t2.save()
+        t3 = Test(cnn_data, name='hs_test_1')
+        t3.save()
+        # Filter by hostname only
+        res = app.client.get('{0}?hostname=humanssuck.net'.format(ENDPOINT))
+        assert res.status_code == 200
+        print res.data
+        # Filter by test name only
+        # Filter by startedDateTime only
+        # Filter by hostname AND test name
+        # filter by hostname AND startedDateTime
+        # Filter by hostname AND test name AND startedDateTime
+        # Filter by test name AND startedDateTime
 
 
 def test_tests_model(app, test_data):

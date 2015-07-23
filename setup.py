@@ -4,6 +4,7 @@ from setuptools.command.test import test as TestCommand
 import sys
 
 install_requires = [
+    "dateutil",
     "Flask",
     "Flask-Migrate",
     "Flask-RESTful",

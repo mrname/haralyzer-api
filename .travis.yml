@@ -1,5 +1,7 @@
 sudo: false
 language: python
+services:
+  - mysql
 matrix:
   fast_finish: true
   allow_failures:
@@ -15,6 +17,8 @@ install:
   - "pip install ."
   - "pip install -r developer_requirements.txt"
   - "pip install coveralls"
+before_script:
+  - mysql -e 'create database haralyzer_api_test;'
 script: py.test --cov har_api tests/
 after_success:
   - coveralls

@@ -25,7 +25,8 @@ test_fields = {
     'name': fields.String,
     'data': fields.String,
     'hostname': fields.String,
-    'startedDateTime': fields.String,
+    'startedDateTime': fields.DateTime,
     'browser_name': fields.String,
     'browser_version': fields.String,
+    'pages': fields.Nested(page_fields, allow_null=True, attribute='pages')
 }
