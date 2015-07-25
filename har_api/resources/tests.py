@@ -37,7 +37,6 @@ class HarTestCollection(Resource):
         parser.add_argument('name', help='test name filter')
         kwargs = parser.parse_args()
         search_query = filter_args(kwargs)
-        print search_query
 
         # TODO - pagination son!
         if search_query:
