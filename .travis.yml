@@ -26,6 +26,6 @@ install:
 before_script:
   - mysql -e 'create database haralyzer_api_test;'
   - python manage.py db upgrade
-script: py.test --cov har_api tests/
+script: py.test --cov har_api
 after_success:
   - coveralls
