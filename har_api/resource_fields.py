@@ -23,7 +23,6 @@ page_fields = {
 
 test_fields = {
     'name': fields.String,
-    'data': fields.String,
     'hostname': fields.String,
     'startedDateTime': fields.DateTime,
     'browser_name': fields.String,

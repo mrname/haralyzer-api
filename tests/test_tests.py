@@ -19,7 +19,6 @@ def test_post_requires_params(app):
     resp = app.client.post(ENDPOINT)
     assert(resp.status_code == 400)
 
-
 def test_post_requires_har_data_element(app):
     """
     Makes sure that the POST request requires the 'data' element
@@ -28,7 +27,7 @@ def test_post_requires_har_data_element(app):
     resp = app.client.post(ENDPOINT, data=json.dumps(data))
     assert(resp.status_code == 400)
 
-    res_json = json.loads(resp.data)
+    res_json = json.loads(resp.data.decode())
     assert 'har_data' in res_json['message']
 
 
@@ -50,7 +49,7 @@ def test_post_valid_request(app, content_type_json, test_data):
     res = app.client.post(ENDPOINT, data=json.dumps(payload),
                           headers=content_type_json)
     assert res.status_code == 201
-    res_json = json.loads(res.data)
+    res_json = json.loads(res.data.decode())
     assert 'data' in res_json
 
 
