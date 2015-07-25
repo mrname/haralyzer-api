@@ -38,12 +38,6 @@ class Test(db.Model):
         start = date_parser.parse(self.har_parser.pages[0].startedDateTime)
         self.startedDateTime = start
 
-    def to_dict(self):
-        test_dict = {'id': self.id, 'har_data': self.data,
-                     'pages': [page.to_dict() for page in self.pages]}
-
-        return test_dict
-
     def save(self):
         db.session.add(self)
         # Need to save it to get the test ID
@@ -113,7 +107,7 @@ class Page(db.Model):
         Helper function that maps our HarPage object to the DB model.
         """
         for field in self.har_page_fields:
-            if getattr(self.har_page, field, None):
+            if getattr(self.har_page, field, None) is not None:
                 setattr(self, field, getattr(self.har_page, field))
 
     def to_dict(self):

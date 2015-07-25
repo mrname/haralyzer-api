@@ -10,6 +10,7 @@ install_requires = [
     "Flask-SQLAlchemy",
     "haralyzer",
     "python-dateutil",
+    "six",
 ]
 
 if sys.version_info < (2, 7):

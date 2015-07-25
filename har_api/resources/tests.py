@@ -1,11 +1,12 @@
-from flask.ext.restful import reqparse, Resource, marshal_with
+from flask.ext.restful import reqparse, Resource, marshal_with, abort
 from har_api.models import Test
 from har_api.resource_fields import test_fields
+from har_api.utils import filter_args
 
 
-class HarTest(Resource):
+class HarTestSingle(Resource):
     """
-    Resource for storing, retrieving, and searching raw HAR data.
+    Resource for storing HAR data or retriveing a single test by ID
     """
     @marshal_with(test_fields, envelope='data')
     def get(self, test_id=None):
@@ -21,13 +22,29 @@ class HarTest(Resource):
             test = Test.query.get_or_404(test_id)
             return (test, 200)
         else:
-            parser = reqparse.RequestParser()
-            parser.add_argument('hostname', help='hostname filter')
-            parser.add_argument('startedDateTime', help='date/time filter')
-            parser.add_argument('name', help='test name filter')
-            kwargs = parser.parse_args()
-            tests = Test.query.filter(**kwargs)
-            return (tests, 200)
+            abort(500, 'test id is required in the URI')
+
+
+class HarTestCollection(Resource):
+    """
+    Returns a collection of HAR tests based on filters.
+    """
+    @marshal_with(test_fields, envelope='data')
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('hostname', help='hostname filter')
+        parser.add_argument('startedDateTime', help='date/time filter')
+        parser.add_argument('name', help='test name filter')
+        kwargs = parser.parse_args()
+        search_query = filter_args(kwargs)
+        print search_query
+
+        # TODO - pagination son!
+        if search_query:
+            tests = Test.query.filter_by(**search_query)
+        else:
+            tests = Test.query.all()
+        return (tests, 200)
 
     @marshal_with(test_fields, envelope='data')
     def post(self):

@@ -19,6 +19,7 @@ def test_post_requires_params(app):
     resp = app.client.post(ENDPOINT)
     assert(resp.status_code == 400)
 
+
 def test_post_requires_har_data_element(app):
     """
     Makes sure that the POST request requires the 'data' element
@@ -53,7 +54,6 @@ def test_post_valid_request(app, content_type_json, test_data):
     assert 'data' in res_json
 
 
-@pytest.mark.xfail
 def test_get_single_test(app, test_data):
     """
     Tests ability to retrieve a single Test object with a GET request.
@@ -70,14 +70,12 @@ def test_get_single_test(app, test_data):
         assert res_data['hostname'] is not None
         assert res_data['name'] is not None
         assert res_data['browser_name'] is not None
-        assert res_data['data'] == data
         assert res_data['startedDateTime'] is not None
         assert 'pages' in res_data
         res_pages = res_data['pages']
         assert len(res_pages) == 1
 
 
-@pytest.mark.xfail
 def test_get_test_collection(app, test_data):
     """
     Tests the ability of a GET request to obtain a collection of tests based on
@@ -92,9 +90,20 @@ def test_get_test_collection(app, test_data):
         t2.save()
         t3 = Test(cnn_data, name='hs_test_1')
         t3.save()
+        # Get all of them
+        res = app.client.get(ENDPOINT)
+        assert res.status_code == 200
+        res_json = json.loads(res.data)
+        assert 'data' in res_json
+        res_data = res_json['data']
+
+
         # Filter by hostname only
         res = app.client.get('{0}?hostname=humanssuck.net'.format(ENDPOINT))
         assert res.status_code == 200
+        res_json = json.loads(res.data)
+        assert 'data' in res_json
+        res_data = res_json['data']
         # Filter by test name only
         # Filter by startedDateTime only
         # Filter by hostname AND test name
