@@ -4,7 +4,7 @@ from setuptools.command.test import test as TestCommand
 import sys
 
 install_requires = [
-    "Flask",
+    "flask",
     "Flask-Migrate",
     "Flask-RESTful",
     "Flask-SQLAlchemy",
