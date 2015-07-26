@@ -3,6 +3,7 @@ import json
 from dateutil import parser as date_parser
 from flask.ext.sqlalchemy import SQLAlchemy
 from haralyzer import HarParser, HarPage
+from sqlalchemy import func
 
 db = SQLAlchemy()
 
@@ -39,6 +40,7 @@ class Test(db.Model):
         self.startedDateTime = start
 
     def save(self):
+        self.data = func.compress(self.data)
         db.session.add(self)
         # Need to save it to get the test ID
         db.session.commit()
@@ -109,11 +111,3 @@ class Page(db.Model):
         for field in self.har_page_fields:
             if getattr(self.har_page, field, None) is not None:
                 setattr(self, field, getattr(self.har_page, field))
-
-    def to_dict(self):
-        page_dict = {'id': self.id, 'test_id': self.test_id,
-                     'page_id': self.page_id}
-        for field in self.har_page_fields:
-            page_dict[field] = getattr(self, field, None)
-
-        return page_dict

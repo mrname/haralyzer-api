@@ -1,4 +1,4 @@
-from flask.ext.restful import reqparse, Resource, marshal_with, abort
+from flask.ext.restful import reqparse, Resource, marshal_with
 from har_api.models import Test
 from har_api.resource_fields import test_fields
 from har_api.utils import filter_args
@@ -9,20 +9,16 @@ class HarTestSingle(Resource):
     Resource for storing HAR data or retriveing a single test by ID
     """
     @marshal_with(test_fields, envelope='data')
-    def get(self, test_id=None):
+    def get(self, test_id):
         """
-        Returns either a singe test with test_id or a collection based on GET
-        params.
+        Returns a single test with test_id
 
         :param test_id: ID of the test as passed in the resource URL
         :type test_id: integer
         :rtype: dict
         """
-        if test_id is not None:
-            test = Test.query.get_or_404(test_id)
-            return (test, 200)
-        else:
-            abort(500, 'test id is required in the URI')
+        test = Test.query.get_or_404(test_id)
+        return (test, 200)
 
 
 class HarTestCollection(Resource):
