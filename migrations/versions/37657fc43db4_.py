@@ -1,4 +1,4 @@
-"""empty message
+"""Switching from fqdn to hostname. Adding test name and startedDateTime
 
 Revision ID: 37657fc43db4
 Revises: 6aab1ac34c3
