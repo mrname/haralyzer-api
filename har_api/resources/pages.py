@@ -11,8 +11,8 @@ class HarPageSingle(Resource):
     @marshal_with(page_fields, envelope='data')
     def get(self, page_id):
         """
-        Returns either a single page object (representing one page of a HAR
-        test) specified by page_id.
+        Returns a single page object (representing one page of a HAR test)
+        specified by page_id.
 
         **Example request**:
 

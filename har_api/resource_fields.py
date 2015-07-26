@@ -1,6 +1,7 @@
 from flask.ext.restful import fields
 
 page_fields = {
+    'id': fields.Integer,
     'test_id': fields.Integer,
     'page_id': fields.String,
     'startedDateTime': fields.DateTime,
@@ -23,6 +24,7 @@ page_fields = {
 }
 
 test_fields = {
+    'id': fields.Integer,
     'name': fields.String,
     'hostname': fields.String,
     'startedDateTime': fields.DateTime,

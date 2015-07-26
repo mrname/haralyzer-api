@@ -30,6 +30,31 @@ class HarTestSingle(Resource):
                 Vary: accept
                 Content-Type: text/javascript
 
+                {
+                    "data": {
+                        "browser_name": "Firefox",
+                        "browser_version": "25.0.1",
+                        "hostname": "humanssuck.net",
+                        "name": null,
+                        "pages": [
+                            {
+                                "audio_load_time": 0.0,
+                                .... see page object for details .....
+                                "video_size": 0.0
+                            }
+                        ],
+                        "startedDateTime": "Sun, 22 Feb 2015 19:28:12 -0000"
+                    }
+                }
+
+        :>json integer id: System assigned ID
+        :>json string browser_name: Name of browser used for test
+        :>json string browser_version: Browser version used for test
+        :>json string hostname: Hostname of the test
+        :>json string name: Custom test name
+        :>json array pages: An array of page objects
+        :>json startedDateTime: Start date/time of the test run
+
         :statuscode 200: I haz test 4 u
         :statuscode 404: test not found
         :statuscode 500: internal error
@@ -66,6 +91,7 @@ class HarTestCollection(Resource):
         :query hostname: Hostname of the test
         :query startedDateTime: Date the test was run on
         :query name: Custom name for the tests
+
         :statuscode 200: You've got tests!
         :statuscode 500: internal error
         """
@@ -106,9 +132,38 @@ class HarTestCollection(Resource):
 
         .. sourcecode:: http
 
-           HTTP/1.1 200 OK
-           Vary: accept
-           Content-Type: text/javascript
+            HTTP/1.1 200 OK
+            Vary: accept
+            Content-Type: text/javascript
+
+            {
+                "data": {
+                    "browser_name": "Firefox",
+                    "browser_version": "25.0.1",
+                    "hostname": "humanssuck.net",
+                    "name": null,
+                    "pages": [
+                        {
+                            "audio_load_time": 0.0,
+                            .... see page object for details .....
+                            "video_size": 0.0
+                        }
+                    ],
+                    "startedDateTime": "Sun, 22 Feb 2015 19:28:12 -0000"
+                }
+            }
+
+        :<json string har_data: Raw HAR data (JSON)
+        :<json string name: A custom name for the test, which can be used later
+            for searching
+
+        :>json integer id: System assigned ID
+        :>json string browser_name: Name of browser used for test
+        :>json string browser_version: Browser version used for test
+        :>json string hostname: Hostname of the test
+        :>json string name: Custom test name
+        :>json array pages: An array of page objects
+        :>json startedDateTime: Start date/time of the test run
 
         :statuscode 201: Test created without issue
         :statuscode 500: internal error
