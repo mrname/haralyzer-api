@@ -1,4 +1,4 @@
-.PHONY: clean clean-build clean-pyc test
+.PHONY: clean clean-build clean-pyc test docs
 
 clean: clean-build clean-pyc
 
@@ -14,3 +14,8 @@ clean-pyc:
 
 test:
 	py.test tests/
+
+docs:
+	$(RM) docs/modules.rst
+	$(MAKE) -C docs clean
+	$(MAKE) -C docs html

@@ -11,12 +11,28 @@ class HarPageSingle(Resource):
     @marshal_with(page_fields, envelope='data')
     def get(self, page_id):
         """
-        Returns either a singe test with test_id or a collection based on GET
-        params.
+        Returns either a single page object (representing one page of a HAR
+        test) specified by page_id.
 
-        :param test_id: ID of the test as passed in the resource URL
-        :type test_id: integer
-        :rtype: dict
+        **Example request**:
+
+            .. sourcecode:: http
+
+                GET /pages/123/ HTTP/1.1
+                Host: har-api.com
+                Accept: application/json, text/javascript
+
+        **Example response**:
+
+            .. sourcecode:: http
+
+                HTTP/1.1 200 OK
+                Vary: accept
+                Content-Type: text/javascript
+
+        :statuscode 200: I haz page 4 u
+        :statuscode 404: page not found
+        :statuscode 500: internal error
         """
         page = Page.query.get_or_404(page_id)
         return (page, 200)
@@ -28,6 +44,30 @@ class HarPageCollection(Resource):
     """
     @marshal_with(page_fields, envelope='data')
     def get(self):
+        """
+        Retrieve a collection of pages based on filter critieria
+        **Example request**:
+
+        .. sourcecode:: http
+
+            GET /pages/?hostname=humanssuck.net HTTP/1.1
+            Host: har-api.com
+            Accept: application/json, text/javascript
+
+        **Example response**:
+
+        .. sourcecode:: http
+
+           HTTP/1.1 200 OK
+           Vary: accept
+           Content-Type: text/javascript
+
+        :query hostname: Hostname of the page
+        :query startedDateTime: Date/time of the page scan run
+        :query name: Custom name for the test containing this page
+        :statuscode 200: You've got tests!
+        :statuscode 500: internal error
+        """
         parser = reqparse.RequestParser()
         parser.add_argument('hostname', help='hostname filter')
         parser.add_argument('startedDateTime', help='date/time filter')

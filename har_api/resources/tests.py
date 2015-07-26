@@ -11,11 +11,28 @@ class HarTestSingle(Resource):
     @marshal_with(test_fields, envelope='data')
     def get(self, test_id):
         """
-        Returns a single test with test_id
+        Returns a single test object (representing a HAR file of a full test
+        run) with test_id.
 
-        :param test_id: ID of the test as passed in the resource URL
-        :type test_id: integer
-        :rtype: dict
+        **Example request**:
+
+            .. sourcecode:: http
+
+                GET /tests/123/ HTTP/1.1
+                Host: har-api.com
+                Accept: application/json, text/javascript
+
+        **Example response**:
+
+            .. sourcecode:: http
+
+                HTTP/1.1 200 OK
+                Vary: accept
+                Content-Type: text/javascript
+
+        :statuscode 200: I haz test 4 u
+        :statuscode 404: test not found
+        :statuscode 500: internal error
         """
         test = Test.query.get_or_404(test_id)
         return (test, 200)
@@ -27,6 +44,31 @@ class HarTestCollection(Resource):
     """
     @marshal_with(test_fields, envelope='data')
     def get(self):
+        """
+        Returns a collection of HAR tests based on filters.
+
+        **Example request**:
+
+        .. sourcecode:: http
+
+            GET /tests/?hostname=humanssuck.net HTTP/1.1
+            Host: har-api.com
+            Accept: application/json, text/javascript
+
+        **Example response**:
+
+        .. sourcecode:: http
+
+           HTTP/1.1 200 OK
+           Vary: accept
+           Content-Type: text/javascript
+
+        :query hostname: Hostname of the test
+        :query startedDateTime: Date the test was run on
+        :query name: Custom name for the tests
+        :statuscode 200: You've got tests!
+        :statuscode 500: internal error
+        """
         parser = reqparse.RequestParser()
         parser.add_argument('hostname', help='hostname filter')
         parser.add_argument('startedDateTime', help='date/time filter')
@@ -45,8 +87,31 @@ class HarTestCollection(Resource):
     @marshal_with(test_fields, envelope='data')
     def post(self):
         """
-        Stores the raw HAR data in the tests table, and then stores one or more
-        page entries in the pages table.
+        Given a string of HAR data, creates a new 'test' entry (as well as it's
+        corresponding 'page' resources).
+
+        **Example request**:
+
+        .. sourcecode:: http
+
+            POST /tests/ HTTP/1.1
+            Host: har-api.com
+            Accept: application/json, text/javascript
+
+            {
+                "har_data": "{"log": {"pages": [{"id": "page_3", ......."
+            }
+
+        **Example response**:
+
+        .. sourcecode:: http
+
+           HTTP/1.1 200 OK
+           Vary: accept
+           Content-Type: text/javascript
+
+        :statuscode 201: Test created without issue
+        :statuscode 500: internal error
         """
         parser = reqparse.RequestParser()
         parser.add_argument('har_data',
