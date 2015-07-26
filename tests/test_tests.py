@@ -96,7 +96,6 @@ def test_get_test_collection(app, test_data):
         res_json = json.loads(res.data.decode())
         assert 'data' in res_json
         res_data = res_json['data']
-        print res_data
 
 
         # Filter by hostname only
@@ -105,7 +104,6 @@ def test_get_test_collection(app, test_data):
         res_json = json.loads(res.data.decode())
         assert 'data' in res_json
         res_data = res_json['data']
-        print res_data
         # Filter by test name only
         # Filter by startedDateTime only
         # Filter by hostname AND test name

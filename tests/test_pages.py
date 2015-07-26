@@ -26,7 +26,7 @@ def test_get_single_page(app, test_data):
         assert res.status_code == 200
 
         # Check for response data produced by the API
-        res_json = json.loads(res.data)
+        res_json = json.loads(res.data.decode())
         assert 'data' in res_json
         res_data = res_json['data']
         assert res_data['hostname'] == 'humanssuck.net'
