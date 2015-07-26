@@ -3,7 +3,6 @@ import json
 from dateutil import parser as date_parser
 from flask.ext.sqlalchemy import SQLAlchemy
 from haralyzer import HarParser, HarPage
-from sqlalchemy import func
 
 db = SQLAlchemy()
 
@@ -14,6 +13,8 @@ class Test(db.Model):
     """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=True)
+    # TODO - Move storage of data field (which is the full HAR data) to
+    # redis
     data = db.Column(db.Text, nullable=False)
     hostname = db.Column(db.String(256), nullable=False)
     startedDateTime = db.Column(db.DateTime, nullable=True)
@@ -40,7 +41,6 @@ class Test(db.Model):
         self.startedDateTime = start
 
     def save(self):
-        self.data = func.compress(self.data)
         db.session.add(self)
         # Need to save it to get the test ID
         db.session.commit()
@@ -57,6 +57,7 @@ class Page(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     test_id = db.Column(db.Integer, db.ForeignKey('test.id'), nullable=False)
     page_id = db.Column(db.String(64), nullable=False)
+    startedDateTime = db.Column(db.DateTime, nullable=True)
     hostname = db.Column(db.String(256))
     time_to_first_byte = db.Column(db.Float)
     html_load_time = db.Column(db.Float)
@@ -74,7 +75,7 @@ class Page(db.Model):
     audio_size = db.Column(db.Float)
     video_size = db.Column(db.Float)
 
-    attrs = ['hostname']
+    attrs = ['hostname', 'startedDateTime']
 
     load_times = ['time_to_first_byte', 'html_load_time', 'video_load_time',
                   'video_load_time', 'audio_load_time', 'js_load_time',
@@ -109,5 +110,9 @@ class Page(db.Model):
         Helper function that maps our HarPage object to the DB model.
         """
         for field in self.har_page_fields:
-            if getattr(self.har_page, field, None) is not None:
+            # Need to convert startedDateTime to datetime object
+            if field == 'startedDateTime':
+                date_time = date_parser.parse(self.har_page.startedDateTime)
+                self.startedDateTime = date_time
+            elif getattr(self.har_page, field, None) is not None:
                 setattr(self, field, getattr(self.har_page, field))

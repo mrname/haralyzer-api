@@ -3,6 +3,7 @@ from flask.ext.restful import fields
 page_fields = {
     'test_id': fields.Integer,
     'page_id': fields.String,
+    'startedDateTime': fields.DateTime,
     'hostname': fields.String,
     'time_to_first_byte': fields.Float,
     'html_load_time': fields.Float,
