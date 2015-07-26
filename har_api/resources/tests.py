@@ -40,7 +40,8 @@ class HarTestCollection(Resource):
 
         # TODO - pagination son!
         if search_query:
-            tests = Test.query.filter_by(**search_query)
+            test_query = Test.query.filter_by(**search_query)
+            tests = test_query.all()
         else:
             tests = Test.query.all()
         return (tests, 200)

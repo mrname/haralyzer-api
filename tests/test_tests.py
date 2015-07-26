@@ -64,7 +64,7 @@ def test_get_single_test(app, test_data):
         t.save()
         res = app.client.get('{0}{1}/'.format(ENDPOINT, t.id))
         assert res.status_code == 200
-        res_json = json.loads(res.data)
+        res_json = json.loads(res.data.decode())
         assert 'data' in res_json
         res_data = res_json['data']
         assert res_data['hostname'] is not None
@@ -93,17 +93,19 @@ def test_get_test_collection(app, test_data):
         # Get all of them
         res = app.client.get(ENDPOINT)
         assert res.status_code == 200
-        res_json = json.loads(res.data)
+        res_json = json.loads(res.data.decode())
         assert 'data' in res_json
         res_data = res_json['data']
+        print res_data
 
 
         # Filter by hostname only
         res = app.client.get('{0}?hostname=humanssuck.net'.format(ENDPOINT))
         assert res.status_code == 200
-        res_json = json.loads(res.data)
+        res_json = json.loads(res.data.decode())
         assert 'data' in res_json
         res_data = res_json['data']
+        print res_data
         # Filter by test name only
         # Filter by startedDateTime only
         # Filter by hostname AND test name

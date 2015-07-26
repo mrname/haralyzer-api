@@ -29,3 +29,7 @@ test_fields = {
     'browser_version': fields.String,
     'pages': fields.Nested(page_fields, allow_null=True, attribute='pages')
 }
+
+test_collection_fields = {
+    'tests': fields.Nested(test_fields, allow_null=True)
+}
