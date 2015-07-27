@@ -111,6 +111,10 @@ def test_get_test_collection(app, test_data):
         # Filter by hostname AND test name AND startedDateTime
         # Filter by test name AND startedDateTime
 
+        # Test pagination
+        res = app.client.get('{0}?limit=1'.format(ENDPOINT))
+        assert res.status_code == 200
+        print res.data
 
 def test_tests_model(app, test_data):
     """

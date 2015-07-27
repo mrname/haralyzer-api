@@ -1,4 +1,4 @@
-from flask.ext.restful import reqparse, Resource, marshal_with
+from flask.ext.restful import reqparse, Resource, marshal_with, marshal
 from har_api.models import Test
 from har_api.resource_fields import test_fields
 from har_api.utils import filter_args
@@ -67,7 +67,6 @@ class HarTestCollection(Resource):
     """
     Returns a collection of HAR tests based on filters.
     """
-    @marshal_with(test_fields, envelope='data')
     def get(self):
         """
         Returns a collection of HAR tests based on filters.
@@ -95,20 +94,43 @@ class HarTestCollection(Resource):
         :statuscode 200: You've got tests!
         :statuscode 500: internal error
         """
+        pagination_vals = ['page', 'limit']
+
         parser = reqparse.RequestParser()
         parser.add_argument('hostname', help='hostname filter')
         parser.add_argument('startedDateTime', help='date/time filter')
         parser.add_argument('name', help='test name filter')
+        parser.add_argument('page', default=1, type=int,
+                            help='page for pagination')
+        parser.add_argument('limit', default=100, type=int,
+                            help='limit for pagination')
+
         kwargs = parser.parse_args()
         search_query = filter_args(kwargs)
 
+        pagination_args = {}
+        for val in pagination_vals:
+            pagination_args[val] = search_query[val]
+            del search_query[val]
+
+        print pagination_args
         # TODO - pagination son!
         if search_query:
             test_query = Test.query.filter_by(**search_query)
-            tests = test_query.all()
         else:
-            tests = Test.query.all()
-        return (tests, 200)
+            test_query = Test.query
+
+        tests_paginated = test_query.paginate(pagination_args['page'],
+                                              pagination_args['limit'])
+
+        tests_data = marshal(tests_paginated.items, test_fields)
+        resp = {'data':
+                {'tests': tests_data},
+                'total': tests_paginated.total,
+                'page': pagination_args['page'],
+                'limit': pagination_args['limit'],
+                }
+        return (resp, 200)
 
     @marshal_with(test_fields, envelope='data')
     def post(self):
