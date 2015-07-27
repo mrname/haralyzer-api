@@ -23,6 +23,9 @@ Run the tests:
 
     py.test tests/
 
+IMPORTANT: This application REQUIRES Redis. I have been too lazy to use any kind of mocking or
+db fixtures, so you need to have Redis running locally for the tests to complete. SORRY!
+
 The repo has Travis CI and Coveralls integration, so please do the needful with repo
 access on your account.
 

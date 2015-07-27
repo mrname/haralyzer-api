@@ -6,6 +6,7 @@ page_fields = {
     'page_id': fields.String,
     'startedDateTime': fields.DateTime,
     'hostname': fields.String,
+    'url': fields.String,
     'time_to_first_byte': fields.Float,
     'html_load_time': fields.Float,
     'video_load_time': fields.Float,

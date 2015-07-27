@@ -79,6 +79,7 @@ class Page(db.Model):
     page_id = db.Column(db.String(64), nullable=False)
     startedDateTime = db.Column(db.DateTime, nullable=True)
     hostname = db.Column(db.String(256))
+    url = db.Column(db.String(256))
     time_to_first_byte = db.Column(db.Float)
     html_load_time = db.Column(db.Float)
     video_load_time = db.Column(db.Float)
@@ -95,7 +96,7 @@ class Page(db.Model):
     audio_size = db.Column(db.Float)
     video_size = db.Column(db.Float)
 
-    attrs = ['hostname', 'startedDateTime']
+    attrs = ['hostname', 'startedDateTime', 'url']
 
     load_times = ['time_to_first_byte', 'html_load_time', 'video_load_time',
                   'video_load_time', 'audio_load_time', 'js_load_time',
