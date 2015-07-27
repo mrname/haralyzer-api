@@ -10,6 +10,7 @@ install_requires = [
     "Flask-SQLAlchemy",
     "haralyzer",
     "python-dateutil",
+    "redis",
     "six",
 ]
 

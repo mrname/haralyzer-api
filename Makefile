@@ -16,6 +16,5 @@ test:
 	py.test tests/
 
 docs:
-	$(RM) docs/modules.rst
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html

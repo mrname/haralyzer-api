@@ -11,3 +11,7 @@ else:
 DEBUG = True
 # Enables app testing mode
 TESTING = True
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0

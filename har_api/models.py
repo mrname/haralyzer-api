@@ -1,8 +1,11 @@
+import hashlib
 import json
 
 from dateutil import parser as date_parser
 from flask.ext.sqlalchemy import SQLAlchemy
 from haralyzer import HarParser, HarPage
+from har_api.settings import REDIS_HOST, REDIS_PORT, REDIS_DB
+from redis import Redis
 
 db = SQLAlchemy()
 
@@ -13,9 +16,6 @@ class Test(db.Model):
     """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=True)
-    # TODO - Move storage of data field (which is the full HAR data) to
-    # redis
-    data = db.Column(db.Text, nullable=False)
     hostname = db.Column(db.String(256), nullable=False)
     startedDateTime = db.Column(db.DateTime, nullable=True)
     browser_name = db.Column(db.String(20), nullable=True)
@@ -39,8 +39,12 @@ class Test(db.Model):
         # A bit of a hack here, grabbing the start time of the first page
         start = date_parser.parse(self.har_parser.pages[0].startedDateTime)
         self.startedDateTime = start
+        self.redis = Redis(REDIS_HOST, REDIS_PORT, REDIS_DB)
 
     def save(self):
+        # Store the data in redis. The key in redis is a hash of the test ID
+        redis_id = hashlib.md5(str(self.id)).hexdigest()
+        self.redis.set(redis_id, self.data)
         db.session.add(self)
         # Need to save it to get the test ID
         db.session.commit()
