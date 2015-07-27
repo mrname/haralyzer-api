@@ -132,4 +132,4 @@ def test_tests_model(app, test_data):
         # MySQL does not store microseconds
         test_time = t.startedDateTime.replace(microsecond=0)
         assert test_time == datetime.datetime(2015, 2, 22, 19, 28, 12)
-        assert t.har_data == data
+        assert t.har_data.decode() == data
