@@ -43,7 +43,7 @@ class Test(db.Model):
 
     def save(self):
         # Store the data in redis. The key in redis is a hash of the test ID
-        redis_id = hashlib.md5(str(self.id)).hexdigest()
+        redis_id = hashlib.md5(str(self.id).encode()).hexdigest()
         self.redis.set(redis_id, self.data)
         db.session.add(self)
         # Need to save it to get the test ID
