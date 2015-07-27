@@ -42,16 +42,32 @@ class Test(db.Model):
         self.redis = Redis(REDIS_HOST, REDIS_PORT, REDIS_DB)
 
     def save(self):
-        # Store the data in redis. The key in redis is a hash of the test ID
-        redis_id = hashlib.md5(str(self.id).encode()).hexdigest()
-        self.redis.set(redis_id, self.data)
         db.session.add(self)
         # Need to save it to get the test ID
         db.session.commit()
+        # Store the data in redis. The key in redis is a hash of the test ID
+        redis_id = self._create_redis_hash()
+        self.redis.set(redis_id, self.data)
+        # Store child pages
         for page in self.har_parser.pages:
             p = Page(self.id, page.page_id, self.har_parser)
             db.session.add(p)
         db.session.commit()
+
+    def _create_redis_hash(self):
+        """
+        Creates a unique hash for a Redis key for the Test object.
+        """
+        return hashlib.md5(str(self.id).encode()).hexdigest()
+
+    @property
+    def har_data(self):
+        """
+        The raw HAR data used to create this Test object. Since this data is
+        stored in redis, using a property to retrieve it.
+        """
+        redis_id = self._create_redis_hash()
+        return self.redis.get(redis_id)
 
 
 class Page(db.Model):
@@ -90,7 +106,7 @@ class Page(db.Model):
 
     har_page_fields = attrs + load_times + page_sizes
 
-    def __init__(self, test_id, page_id, har_parser=None):
+    def __init__(self, test_id, page_id, har_parser):
         """
         :param test_id: Maps to the ID of the full test run containing the page
         :type test_id: Integer
@@ -101,11 +117,7 @@ class Page(db.Model):
         """
         self.test_id = test_id
         self.page_id = page_id
-        if har_parser is None:
-            # TODO - Load the data from the test object and make a harparser
-            pass
-        else:
-            self.har_parser = har_parser
+        self.har_parser = har_parser
         self.har_page = HarPage(self.page_id, self.har_parser)
         self._map_page_to_model()
 

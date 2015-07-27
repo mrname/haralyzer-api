@@ -4,7 +4,6 @@ Tests the '/tests/' endpoint
 
 import datetime
 import json
-import pytest
 
 from haralyzer.assets import HarPage
 from har_api.models import Test
