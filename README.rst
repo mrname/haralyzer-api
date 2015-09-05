@@ -2,6 +2,15 @@
 haralyzer-api
 =============
 
+.. image:: https://travis-ci.org/mrname/haralyzer-api.svg?branch=master
+    :target: https://travis-ci.org/mrname/haralyzer-api
+
+.. image:: https://coveralls.io/repos/mrname/haralyzer-api/badge.svg?branch=master
+  :target: https://coveralls.io/r/mrname/haralyzer-api?branch=master
+
+.. image:: https://readthedocs.org/projects/haralyzer-api/badge/?version=latest
+    :target: http://haralyzer-api.readthedocs.org/en/latest/
+
 A REST API For Har Data Analysis
 
 Overview
