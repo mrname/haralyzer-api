@@ -30,6 +30,52 @@ class HarPageSingle(Resource):
                 Vary: accept
                 Content-Type: text/javascript
 
+                "data": {
+                    audio_load_time: 0,
+                    audio_size: 0,
+                    css_load_time: 76,
+                    css_size: 8,
+                    hostname: "humanssuck.net",
+                    html_load_time: 153,
+                    id: 1,
+                    image_load_time: 304,
+                    image_size: 23591,
+                    js_load_time: 310,
+                    js_size: 38367,
+                    page_id: "page_3",
+                    page_load_time: 567,
+                    page_size: 62204,
+                    startedDateTime: "Sun, 22 Feb 2015 19:28:12 -0000",
+                    test_id: 2,
+                    text_size: 246,
+                    time_to_first_byte: 153,
+                    url: "http://humanssuck.net/",
+                    video_load_time: 0,
+                    video_size: 0
+                },
+                        ............................
+
+        :>json integer audio_load_time: Total load time for audio files (ms)
+        :>json integer css_load_time: Total load time for CSS files (ms)
+        :>json integer css_size: Total size of CSS assets (kb)
+        :>json string hostname: Hostname of the page request
+        :>json integer html_load_time: Total load time for HTML files (ms)
+        :>json integer id: System assigned id
+        :>json integer image_load_time: Total load time for image files (ms)
+        :>json integer image_size: Total size of image assets (kb)
+        :>json integer js_load_time: Total load time for javascript files (ms)
+        :>json integer js_size: Total size of javascript assets (ms)
+        :>json string page_id: Page ID as specified in the HAR file
+        :>json integer page_load_time: Total page load time (ms)
+        :>json integer page_size: Total page size (kb)
+        :>json string startedDateTime: Start date/time of the test
+        :>json integer test_id: System assigned ID of parent test
+        :>json integer text_size: Total size of all text assets (kb)
+        :>json integer time_to_first_byte: Time to first byte (ms)
+        :>json string url: Canonical URL of page request
+        :>json integer video_load_time: Total load time of videos assets (ms)
+        :>json integer video_size: Total size of loaded video files (kb)
+
         :statuscode 200: I haz page 4 u
         :statuscode 404: page not found
         :statuscode 500: internal error
