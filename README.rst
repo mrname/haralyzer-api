@@ -57,3 +57,8 @@ This project uses flask-migrate to manage schema changes. Consult the docs_ if y
 questions about how to use it.
 
 .. _docs: http://flask-migrate.readthedocs.org/en/latest/
+
+Project Documentation
+---------------------
+
+.. _Haralyzer API Documentation: http://haralyzer-api.readthedocs.org/
