@@ -52,8 +52,8 @@ setup(
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
-        'Framework :: Eve',
-        'License :: MIT',
+        'License :: OSI Approved :: MIT License',
+        'Natural Language :: English',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
