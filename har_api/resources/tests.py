@@ -89,15 +89,14 @@ class HarTestCollection(Resource):
            Content-Type: text/javascript
 
         :query hostname: Hostname of the test
-        :query startedDateTime: Date the test was run on
         :query name: Custom name for the tests
 
         :statuscode 200: You've got tests!
         :statuscode 500: internal error
         """
         parser = reqparse.RequestParser()
+        # TODO - date range support
         parser.add_argument('hostname', help='hostname filter')
-        parser.add_argument('startedDateTime', help='date/time filter')
         parser.add_argument('name', help='test name filter')
         kwargs = parser.parse_args()
         search_query = filter_args(kwargs)
@@ -172,6 +171,7 @@ class HarTestCollection(Resource):
         parser.add_argument('har_data',
                             help='har_data: String of HAR (JSON) data',
                             required=True)
+        parser.add_argument('name', help='Custom test name')
         args = parser.parse_args()
 
         har_test = Test(data=args['har_data'])

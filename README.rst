@@ -10,6 +10,12 @@ Overview
 The haralyzer API module provides a deployable REST API for storing raw HAR
 data and extracting performance data for the pages inside the HAR data.
 
+Status
+------
+
+This is currently SUPER beta, with limited features, and no guarantees as to appropriate
+functionality.
+
 Development Process
 -------------------
 
@@ -17,6 +23,7 @@ Start by forking the repository, and cloning down your fork. Make a fresh virtua
 and then install the developer requirements.
 
     pip install -r developer_requirements
+
     python setup.py develop
 
 Run the tests:

@@ -9,11 +9,13 @@ def pytest_runtest_setup():
     with _app.test_request_context():
         db.create_all()
 
+
 def pytest_runtest_teardown():
     _app = app()
     with _app.test_request_context():
         db.session.remove()
         db.drop_all()
+
 
 @pytest.fixture(scope='session')
 def app():

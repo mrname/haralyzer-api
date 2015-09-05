@@ -63,14 +63,12 @@ class HarPageCollection(Resource):
            Content-Type: text/javascript
 
         :query hostname: Hostname of the page
-        :query startedDateTime: Date/time of the page scan run
         :query name: Custom name for the test containing this page
         :statuscode 200: You've got tests!
         :statuscode 500: internal error
         """
         parser = reqparse.RequestParser()
         parser.add_argument('hostname', help='hostname filter')
-        parser.add_argument('startedDateTime', help='date/time filter')
         parser.add_argument('test_name', help='test name filter')
         kwargs = parser.parse_args()
         search_query = filter_args(kwargs)
