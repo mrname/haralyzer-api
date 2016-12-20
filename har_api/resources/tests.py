@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from flask.ext.restful import reqparse, Resource, marshal_with
 from har_api.models import Test
 from har_api.resource_fields import test_fields
@@ -94,16 +96,37 @@ class HarTestCollection(Resource):
         :statuscode 200: You've got tests!
         :statuscode 500: internal error
         """
+        results = []
         parser = reqparse.RequestParser()
         # TODO - date range support
         parser.add_argument('hostname', help='hostname filter')
         parser.add_argument('name', help='test name filter')
+        parser.add_argument('start_date', help='filter tests by start date')
+        parser.add_argument('end_date', help='filter tests by end date')
         kwargs = parser.parse_args()
         search_query = filter_args(kwargs)
 
         # TODO - pagination son!
         if search_query:
+            start_date = search_query.pop('start_date', None)
+            end_date = search_query.pop('end_date', None)
             test_query = Test.query.filter_by(**search_query)
+            if start_date and end_date:
+                start_date = datetime.strptime(start_date, '%m-%d-%Y')
+                end_date = datetime.strptime(end_date, '%m-%d-%Y') + timedelta(days=1)
+                test_query = Test.query.filter_by(**search_query).filter(
+                    Test.startedDateTime >= start_date).filter(
+                        Test.startedDateTime <= end_date)
+            # TODO - figure out how to build up filters on the query object,
+            # possibly using the raw db session?
+            elif start_date:
+                start_date = datetime.strptime(start_date, '%m-%d-%Y')
+                test_query = Test.query.filter_by(**search_query).filter(
+                    Test.startedDateTime >= start_date)
+            elif end_date:
+                end_date = datetime.strptime(end_date, '%m-%d-%Y') + timedelta(days=1)
+                test_query = Test.query.filter_by(**search_query).filter(
+                    Test.startedDateTime <= end_date)
             tests = test_query.all()
         else:
             tests = Test.query.all()
