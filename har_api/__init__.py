@@ -9,6 +9,7 @@ def create_app():
     api = Api(app)
 
     app.config.from_object('har_api.settings')
+    app.config.from_envvar('APP_SETTINGS', silent=True)
 
     create_routes(api)
 

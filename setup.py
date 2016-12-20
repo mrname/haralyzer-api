@@ -9,6 +9,7 @@ install_requires = [
     "Flask-RESTful",
     "Flask-SQLAlchemy",
     "haralyzer",
+    "pymysql",
     "python-dateutil",
     "redis",
     "six",
