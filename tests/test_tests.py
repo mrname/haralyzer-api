@@ -103,9 +103,21 @@ def test_get_test_collection(app, test_data):
         assert res.status_code == 200
         res_json = json.loads(res.data.decode())
         assert 'data' in res_json
-        res_data = res_json['data']
         # Filter by test name only
         # Filter by startedDateTime only
+        res = app.client.get('{0}?start_date=02-22-2015'.format(ENDPOINT))
+        assert res.status_code == 200
+        res_json = json.loads(res.data.decode())
+        assert 'data' in res_json
+        print(res_json['data'])
+        assert len(res_json['data']) == 2
+        # Filter by endedDateTime only
+        res = app.client.get('{0}?end_date=02-21-2015'.format(ENDPOINT))
+        assert res.status_code == 200
+        res_json = json.loads(res.data.decode())
+        assert 'data' in res_json
+        assert len(res_json['data']) == 1
+        # Filter by start and end date
         # Filter by hostname AND test name
         # filter by hostname AND startedDateTime
         # Filter by hostname AND test name AND startedDateTime
