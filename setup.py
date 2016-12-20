@@ -5,6 +5,7 @@ import sys
 
 install_requires = [
     "flask",
+    "flask-cors",
     "Flask-Migrate",
     "Flask-RESTful",
     "Flask-SQLAlchemy",
