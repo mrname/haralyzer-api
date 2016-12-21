@@ -44,7 +44,7 @@ class PyTest(TestCommand):
 
 setup(
     name='haralyzer-api',
-    version='0.1',
+    version='0.1.2',
     description='REST API for storing HAR data and retrieving analyzed results',
     author='Justin Crown',
     author_email='admin@humanssuck.net',
