@@ -9,8 +9,6 @@
 box: python:2.7
 # You can also use services such as databases. Read more on our dev center:
 # http://devcenter.wercker.com/docs/services/index.html
-services:
-    - redis
     # http://devcenter.wercker.com/docs/services/postgresql.html
 
     # - mongo
@@ -53,6 +51,8 @@ build:
           echo "pip version $(pip --version) running"
 
 unit-tests:
+    services:
+    - redis
     steps:
     - pip-install:
         requirements_file: ""
