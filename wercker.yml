@@ -37,6 +37,7 @@ build:
 
     # A step that executes `pip install` command.
     - pip-install .
+        extra_args: "."
 
     # # This pip-install clears the local wheel cache
     # - pip-install:
