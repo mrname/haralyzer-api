@@ -55,6 +55,9 @@ build:
 unit-tests:
     steps:
     - pip-install:
+        requirements_file: ""
+        extra_args: "."
+    - pip-install:
         requirements_file: "developer_requirements.txt"
     - script:
         name: run unit tests
