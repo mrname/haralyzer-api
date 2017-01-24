@@ -56,3 +56,7 @@ unit-tests:
     steps:
     - pip-install:
         requirements_file: "developer_requirements.txt"
+    - script:
+        name: run unit tests
+        code: |
+            py.test --cov=har_api tests/
