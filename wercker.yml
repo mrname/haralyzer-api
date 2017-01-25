@@ -13,6 +13,8 @@ box: python:2.7
 
     # - mongo
     # http://devcenter.wercker.com/docs/services/mongodb.html
+services:
+- redis
 
 # This is the build pipeline. Pipelines are the core of wercker
 # Read more about pipelines on our dev center
@@ -38,21 +40,7 @@ build:
         requirements_file: ""
         extra_args: "."
 
-    # # This pip-install clears the local wheel cache
-    # - pip-install:
-    #     clean_wheel_dir: true
-
-    # A custom script step, name value is used in the UI
-    # and the code value contains the command that get executed
-    - script:
-        name: echo python information
-        code: |
-          echo "python version $(python --version) running"
-          echo "pip version $(pip --version) running"
-
 unit-tests:
-    services:
-    - redis
     steps:
     - pip-install:
         requirements_file: ""
@@ -63,3 +51,30 @@ unit-tests:
         name: run unit tests
         code: |
             py.test --cov=har_api tests/
+
+dev:
+  services:
+    - id: mysql
+      env:
+        MYSQL_ROOT_PASSWORD: testpass
+  steps:
+    - virtualenv:
+        name: setup virtual environment
+        install_wheel: false # Enable wheel to speed up builds (experimental)
+    - pip-install:
+        requirements_file: ""
+        extra_args: "."
+    - script:
+        name: Install mysql CLI
+        code: |
+            apt-get update -y && apt-get install mysql-client -y
+    - script:
+        name: Create database
+        code: mysql -h$MYSQL_PORT_3306_TCP_ADDR -P$MYSQL_PORT_3306_TCP_PORT -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD -e "CREATE DATABASE IF NOT EXISTS haralyzer_api_test;"
+    - script:
+        name: Migrate database
+        code: python manage.py db upgrade
+    - internal/watch:
+        name: start web server
+        code: python manage.py runserver -h 0.0.0.0
+        reload: true
