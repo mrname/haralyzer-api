@@ -1,9 +1,18 @@
 import os
 
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 if os.environ.get('TRAVIS'):
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://travis:@localhost/haralyzer_api_test'
+elif os.environ.get('WERCKER'):
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:{0}@{1}/haralyzer_api_test'.format(
+                                os.environ.get('MYSQL_ENV_MYSQL_ROOT_PASSWORD'),
+                                os.environ.get('MYSQL_PORT_3306_TCP_ADDR'))
+    REDIS_HOST = os.environ.get('REDIS_PORT_6379_TCP_ADDR')
 else:
     SQLALCHEMY_DATABASE_URI = 'sqlite:///{0}'.format(
         os.path.join(BASE_DIR, 'data-dev.db'))
@@ -19,6 +28,3 @@ TESTING = True
 # details from the HAR data if they are NULL.
 STORE_HAR_DATA = True
 # Redis settings
-REDIS_HOST = 'localhost'
-REDIS_PORT = 6379
-REDIS_DB = 0
