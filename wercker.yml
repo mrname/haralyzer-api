@@ -36,7 +36,7 @@ deploy-to-debug-ecs:
   steps:
     - script:
         name: template
-        code: ./template.sh
+        code: ./ecs_deployment_template.sh
     - 1science/aws-ecs:
         key: $AWS_ACCESS_KEY_ID
         secret: $AWS_SECRET_ACCESS_KEY
