@@ -36,12 +36,12 @@ deploy-to-debug-ecs:
   steps:
     - script:
         name: template
-        code: ./ecs_deployment_template.sh && cp workflows-demo-task-definition.json $WERCKER_SOURCE_DIR/workflows-demo-task-definition.json
+        code: ./ecs_deployment_template.sh
     - 1science/aws-ecs:
         key: $AWS_ACCESS_KEY_ID
         secret: $AWS_SECRET_ACCESS_KEY
         region: $AWS_ECS_REGION
-        cluster-name: testing
+        cluster-name: testing2
         service-name: testing
         task-definition-name: workflows-demo
         task-definition-file: $WERCKER_SOURCE_DIR/workflows-demo-task-definition.json
