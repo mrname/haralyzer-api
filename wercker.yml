@@ -27,7 +27,7 @@ push-debug-ecr:
         aws-secret-key: $AWS_SECRET_ACCESS_KEY
         aws-region: $AWS_ECS_REGION
         aws-registry-id: $AWS_REGISTRY_ID
-        repository: testing
+        repository: testing2
         tag: debug-$WERCKER_GIT_BRANCH
         registry: $AWS_REGISTRY_URL 
 
