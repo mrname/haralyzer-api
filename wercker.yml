@@ -1,4 +1,4 @@
-# bumpz
+# bump
 # This references the default Python container from
 # the Docker Hub with the 2.7 tag:
 # https://registry.hub.docker.com/_/python/
