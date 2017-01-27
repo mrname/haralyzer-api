@@ -6,8 +6,8 @@ cat > workflows-demo-task-definition.json <<EOF
       "memory": 300,
       "portMappings": [
         {
-          "hostPort": 8080,
-          "containerPort": 80,
+          "hostPort": 80,
+          "containerPort": 5000,
           "protocol": "tcp"
         }
       ],
