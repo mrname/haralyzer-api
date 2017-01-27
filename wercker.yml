@@ -36,7 +36,7 @@ deploy-to-debug-ecs:
   steps:
     - script:
         name: template
-        code: ./ecs_deployment_template.sh
+        code: ./ecs_deployment_template.sh && cp workflows-demo-task-definition.json $WERCKER_SOURCE_DIR/workflows-demo-task-definition.json
     - 1science/aws-ecs:
         key: $AWS_ACCESS_KEY_ID
         secret: $AWS_SECRET_ACCESS_KEY
