@@ -33,6 +33,7 @@ push-debug-ecr:
         repository: testing2
         tag: debug-$WERCKER_GIT_BRANCH
         registry: $AWS_REGISTRY_URL 
+        cmd: /bin/bash -c “cd /pipeline/source && python manage.py runserver -h 0.0.0.0"
 
 deploy-to-debug-ecs:
   box: python:2.7-slim
