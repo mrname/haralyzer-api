@@ -22,6 +22,9 @@ services:
 
 push-debug-ecr:
   steps:
+    - pip-install:
+        requirements_file: ""
+        extra_args: "."
     - internal/docker-push:
         aws-access-key: $AWS_ACCESS_KEY_ID
         aws-secret-key: $AWS_SECRET_ACCESS_KEY
