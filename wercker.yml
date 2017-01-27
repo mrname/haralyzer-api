@@ -28,8 +28,22 @@ push-debug-ecr:
         aws-region: us-west-2
         aws-registry-id: $AWS_REGISTRY_ID
         repository: testing
-        tag: debug-$WERCKER_BRANCH_NAME
+        tag: debug-$WERCKER_GIT_BRANCH
         registry: $AWS_REGISTRY_URL 
+
+deploy-to-debug-ecs:
+  box: python:2.7-slim
+  steps:
+    - script:
+        name: template
+        code: ./template.sh
+    - 1science/aws-ecs:
+        key: $AWS_ACCESS_KEY_ID
+        secret: $AWS_SECRET_ACCESS_KEY
+        cluster-name: testing
+        service-name: workflows-demo-service
+        task-definition-name: workflows-demo
+        task-definition-file: $WERCKER_SOURCE_DIR/workflows-demo-task-definition.json
 # This is the build pipeline. Pipelines are the core of wercker
 # Read more about pipelines on our dev center
 # http://devcenter.wercker.com/docs/pipelines/index.html
