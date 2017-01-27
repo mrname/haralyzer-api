@@ -25,7 +25,7 @@ push-debug-ecr:
     - internal/docker-push:
         aws-access-key: $AWS_ACCESS_KEY_ID
         aws-secret-key: $AWS_SECRET_ACCESS_KEY
-        aws-ecs-region: $AWS_ECS_REGION
+        aws-region: $AWS_ECS_REGION
         aws-registry-id: $AWS_REGISTRY_ID
         repository: testing
         tag: debug-$WERCKER_GIT_BRANCH
