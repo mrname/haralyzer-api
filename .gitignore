@@ -61,3 +61,7 @@ target/
 
 # Dev DB
 data-dev.db
+
+# Wercker
+ENVIRONMENT
+.wercker/*

@@ -19,10 +19,20 @@ services:
   env:
     MYSQL_ROOT_PASSWORD: testpass
 
+push-debug-ecr:
+  steps:
+    - internal/docker-push:
+        aws-access-key: $AWS_ACCESS_KEY_ID
+        aws-secret-key: $AWS_SECRET_ACCESS_KEY
+        aws-region: us-west-2
+        aws-registry-id: $AWS_REGISTRY_ID
+        repository: workflows-demo
+        tag: debug-$WERCKER_BRANCH_NAME
 # This is the build pipeline. Pipelines are the core of wercker
 # Read more about pipelines on our dev center
 # http://devcenter.wercker.com/docs/pipelines/index.html
 build:
+  steps:
   # The steps that will be executed on build
   # Steps make up the actions in your pipeline
   # Read more about steps on our dev center:
