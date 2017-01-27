@@ -18,7 +18,7 @@ cat > workflows-demo-task-definition.json <<EOF
       "environment": [],
       "links": [],
       "image": "$AWS_REGISTRY_URL/testing2:debug-$WERCKER_GIT_BRANCH",
-      "command": [],
+      "command": ["python manage.py runserver -h 0.0.0.0"],
       "cpu": 10
     }
 ]
