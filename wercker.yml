@@ -27,8 +27,9 @@ push-debug-ecr:
         aws-secret-key: $AWS_SECRET_ACCESS_KEY
         aws-region: us-west-2
         aws-registry-id: $AWS_REGISTRY_ID
-        repository: workflows-demo
+        repository: testing
         tag: debug-$WERCKER_BRANCH_NAME
+        registry: $AWS_REGISTRY_URL 
 # This is the build pipeline. Pipelines are the core of wercker
 # Read more about pipelines on our dev center
 # http://devcenter.wercker.com/docs/pipelines/index.html
