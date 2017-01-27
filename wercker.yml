@@ -42,7 +42,7 @@ deploy-to-debug-ecs:
         secret: $AWS_SECRET_ACCESS_KEY
         region: $AWS_ECS_REGION
         cluster-name: testing2
-        service-name: testing
+        service-name: testing2
         task-definition-name: workflows-demo
         task-definition-file: $WERCKER_SOURCE_DIR/workflows-demo-task-definition.json
 # This is the build pipeline. Pipelines are the core of wercker
