@@ -48,12 +48,6 @@ deploy-to-debug-ecs:
         service-name: testing2
         task-definition-name: workflows-demo
         task-definition-file: $WERCKER_SOURCE_DIR/workflows-demo-task-definition.json
-    - pip-install:
-        requirements_file: ""
-        extra_args: "."
-    - script:
-        name: Migrate database
-        code: python manage.py db upgrade
 # This is the build pipeline. Pipelines are the core of wercker
 # Read more about pipelines on our dev center
 # http://devcenter.wercker.com/docs/pipelines/index.html
