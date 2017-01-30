@@ -18,7 +18,7 @@ cat > workflows-demo-task-definition.json <<EOF
       "environment": [],
       "links": ["mysql", "redis"],
       "image": "$AWS_REGISTRY_URL/testing2:debug-$WERCKER_GIT_BRANCH",
-      "command": ["/usr/local/bin/python", "/pipeline/source/manage.py", "runserver", "-h", "0.0.0.0"],
+      "command": ["/usr/local/bin/python", "manage.py", "db", "upgrade", "&&", "/usr/local/bin/python", "/pipeline/source/manage.py", "runserver", "-h", "0.0.0.0"],
       "cpu": 10
     },
     {
