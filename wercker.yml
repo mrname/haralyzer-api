@@ -33,6 +33,9 @@ push-debug-ecr:
         repository: testing2
         tag: debug-$WERCKER_GIT_BRANCH
         registry: $AWS_REGISTRY_URL 
+    - script:
+        name: Migrate database
+        code: python manage.py db upgrade
 
 deploy-to-debug-ecs:
   box: python:2.7-slim
