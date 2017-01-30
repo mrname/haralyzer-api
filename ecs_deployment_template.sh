@@ -35,14 +35,14 @@ cat > workflows-demo-task-definition.json <<EOF
       "name": "mysql",
       "image": "mysql",
       "cpu": 10,
-      "memory": 500,
+      "memory": 200,
       "essential": true
     },
     {
       "name": "redis",
       "image": "redis",
       "cpu": 10,
-      "memory": 500,
+      "memory": 200,
       "essential": true
     }
 ]
