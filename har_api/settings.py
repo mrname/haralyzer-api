@@ -11,18 +11,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if os.environ.get('TRAVIS'):
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://travis:@localhost/haralyzer_api_test'
 # Running in wercker world?
-elif os.environ.get('WERCKER'):
+#elif os.environ.get('WERCKER'):
+else:
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:{0}@{1}/haralyzer_api_test'.format(
                                 os.environ.get('MYSQL_ENV_MYSQL_ROOT_PASSWORD'),
                                 os.environ.get('MYSQL_PORT_3306_TCP_ADDR'))
     REDIS_HOST = os.environ.get('REDIS_PORT_6379_TCP_ADDR')
-
-else:
-    REDIS_HOST = 'redis'
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:{0}@{1}/haralyzer_api_test'.format(
-                                os.environ.get('MYSQL_ENV_MYSQL_ROOT_PASSWORD'),
-                                'mysql')
-
     # Local development, get this working later
     #SQLALCHEMY_DATABASE_URI = 'sqlite:///{0}'.format(
     #    os.path.join(BASE_DIR, 'data-dev.db'))

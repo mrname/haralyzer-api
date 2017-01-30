@@ -25,8 +25,9 @@ cat > workflows-demo-task-definition.json <<EOF
       "name": "todo-demo",
       "environment": [],
       "links": ["mysql", "redis"],
+      "workingDirectory": "/pipeline/source",
       "image": "$AWS_REGISTRY_URL/testing2:debug-$WERCKER_GIT_BRANCH",
-      "command": ["/pipeline/source/docker_entrypoint.sh"],
+      "command": ["python", "manage.py", "db", "migrate"],
       "cpu": 10
     },
     {
