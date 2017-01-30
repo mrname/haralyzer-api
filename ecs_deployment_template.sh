@@ -26,6 +26,10 @@ cat > workflows-demo-task-definition.json <<EOF
         {
           "name": "MYSQL_ROOT_PASSWORD",
           "value": "testpass"
+        },
+        {
+          "name": "MYSQL_DATABASE",
+          "value": "haralyzer_api_test"
         }
       ],
       "name": "mysql",
