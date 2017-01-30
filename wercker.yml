@@ -48,6 +48,9 @@ deploy-to-debug-ecs:
         service-name: testing2
         task-definition-name: workflows-demo
         task-definition-file: $WERCKER_SOURCE_DIR/workflows-demo-task-definition.json
+    - pip-install:
+        requirements_file: ""
+        extra_args: "."
     - script:
         name: Migrate database
         code: python manage.py db upgrade
