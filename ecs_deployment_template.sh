@@ -11,6 +11,14 @@ cat > workflows-demo-task-definition.json <<EOF
           "protocol": "tcp"
         }
       ],
+      "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "awslogs-haralyzer",
+                    "awslogs-region": "us-west-2",
+                    "awslogs-stream-prefix": "awslogs-haralyzer"
+                }
+            },
       "essential": true,
       "entryPoint": [],
       "mountPoints": [],
