@@ -18,7 +18,7 @@ cat > workflows-demo-task-definition.json <<EOF
       "environment": [],
       "links": ["mysql", "redis"],
       "image": "$AWS_REGISTRY_URL/testing2:debug-$WERCKER_GIT_BRANCH",
-      "command": ["/bin/sh", "docker-entrypoint.sh"],
+      "command": ["/usr/local/bin/sh", "docker-entrypoint.sh"],
       "cpu": 10
     },
     {
