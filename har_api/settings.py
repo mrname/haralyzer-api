@@ -15,7 +15,7 @@ if os.environ.get('TRAVIS'):
 else:
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:{0}@{1}/haralyzer_api_test'.format(
                                 os.environ.get('MYSQL_ENV_MYSQL_ROOT_PASSWORD'),
-                                'mysql')
+                                os.environ.get('MYSQL_PORT_3306_TCP_ADDR'))
     REDIS_HOST = os.environ.get('REDIS_PORT_6379_TCP_ADDR')
     # Local development, get this working later
     #SQLALCHEMY_DATABASE_URI = 'sqlite:///{0}'.format(
